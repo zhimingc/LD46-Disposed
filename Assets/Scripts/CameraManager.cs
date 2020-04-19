@@ -5,7 +5,12 @@ using Cinemachine;
 
 public enum CAMERA
 {
-    MAIN, DOOR, NUM
+    MAIN, 
+    DOOR, 
+    DOOR_CLOSEUP, 
+    DOOR_CLOSEUP_2, 
+    BLACK_SCREEN,
+    NUM
 }
 
 public class CameraManager : MonoBehaviour

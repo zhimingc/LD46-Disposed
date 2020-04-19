@@ -5,16 +5,12 @@ using UnityEngine;
 public class DefaultSequence : Sequencer
 {
     public PlayerController player;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public InventoryManager inventoryManager;
 
     // Update is called once per frame
     public override void ManualUpdate() 
     {
         player.ManualUpdate();
+        inventoryManager.ManualUpdate();
     }
 }

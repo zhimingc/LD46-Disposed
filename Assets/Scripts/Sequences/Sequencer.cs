@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Sequencer : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    protected SequenceManager sequenceManager;
+    protected bool enterState;
+
+    public void SetManager(SequenceManager manager)
     {
-        
+        sequenceManager = manager;
     }
 
     // Update is called once per frame
