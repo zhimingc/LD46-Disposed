@@ -36,6 +36,7 @@ public class InventoryManager : MonoBehaviour
     [Header("Middle Text")]
     public GameObject middleTextObj;
     public TextMeshPro item1Text, usageText, item2Text;
+    public GameObject middleText2;
 
     private GameObject draggedObj;
     private Vector3 draggedOrigin;
@@ -237,10 +238,10 @@ public class InventoryManager : MonoBehaviour
                     }
                 }
 
-                if (hit.transform.tag == "UseOn")
+                UseOn useScript = hit.transform.GetComponent<UseOn>();
+                if (useScript != null)
                 {
                     Slot slotScript = draggedObj.GetComponent<Slot>();
-                    UseOn useScript = hit.transform.GetComponent<UseOn>();
                     if (slotScript)
                     {
                         if (slotScript.itemTag == ITEM.USB && useScript.useTag == USE_ON.SELF)
@@ -263,10 +264,32 @@ public class InventoryManager : MonoBehaviour
                             playerController.AddCannon();
                         }
 
-                        if (slotScript.itemTag == ITEM.P_GARBAGE_CANNON && useScript.useTag == USE_ON.OVERRIDE_BUTTON)
+                        if (slotScript.itemTag == ITEM.P_GARBAGE_CANNON)
                         {
-                            sequenceManager.SetSequence(SEQUENCE.SHOOT_OVERRIDE);
-                            SetUIVisible(false);
+                            if (useScript.useTag == USE_ON.OVERRIDE_BUTTON)
+                            {
+                                sequenceManager.SetSequence(SEQUENCE.SHOOT_OVERRIDE);
+                                SetUIVisible(false);                                
+                            }
+
+                            if (useScript.useTag == USE_ON.CHUTE_BUTTON)
+                            {
+                                if (playerController.lastInteract == "ChuteFloor")
+                                {
+                                    sequenceManager.SetSequence(SEQUENCE.END);
+                                }
+                                else
+                                {
+                                    sequenceManager.SetSequence(SEQUENCE.CHUTE);
+                                }
+                                useScript.behaviour = "shoot";                                
+                            }
+                        }
+
+                        if (slotScript.itemTag == ITEM.JUNK && useScript.useTag == USE_ON.CHUTE_FLOOR)
+                        {
+                            RemoveItem(slotScript.index);
+                            sequenceManager.SetSequence(SEQUENCE.PLACE_JUNK);
                         }
                     }
 
@@ -281,12 +304,18 @@ public class InventoryManager : MonoBehaviour
         else
         {
             Slot slotHovered = null;
+            middleText2.SetActive(false);
+            
             // Does the ray intersect any objects excluding the player layer
             if (Physics.Raycast(mouseRay.origin, mouseRay.direction, out hit, Mathf.Infinity, layerMask))
             {
                 if (hit.transform.tag == "Slot")
                 {
                     slotHovered = hit.transform.GetComponent<Slot>();
+                }
+                if (hit.transform.tag == "Scribble")
+                {
+                    middleText2.SetActive(true);
                 }
             }
 

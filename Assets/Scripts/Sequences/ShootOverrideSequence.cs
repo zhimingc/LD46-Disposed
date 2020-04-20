@@ -16,6 +16,7 @@ public class ShootOverrideSequence : Sequencer
     public GameObject overrideButton;
     public GameObject bulletPrefab;
     public GameObject player;
+    public Animator chuteButton;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +33,8 @@ public class ShootOverrideSequence : Sequencer
                 if (enterState)
                 {
                     enterState = false;
+                    chuteButton.gameObject.SetActive(true);
+
                     GameObject bullet = Instantiate(bulletPrefab);
                     bullet.transform.position = player.transform.position;
                     
@@ -50,10 +53,17 @@ public class ShootOverrideSequence : Sequencer
                     overrideButton.GetComponent<Animator>().SetTrigger("pressed");
                 }
             break;
+            case STATE.ACTIVATE_CHUTE_BUTTON:
+                if (enterState)
+                {
+                    enterState = false;
+                    chuteButton.SetTrigger("enter");
+                }
+            break;
         }
     }
 
-    void SetState(STATE newState)
+    public void SetState(STATE newState)
     {
         state = newState;
         enterState = true;

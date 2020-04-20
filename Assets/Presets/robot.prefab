@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2269083131325890915
 Transform:
   m_ObjectHideFlags: 0
@@ -4826,7 +4826,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6069109621164846185}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: -0.05, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7526339531991751487}
@@ -4971,8 +4971,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7526339531916020011}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0053216517, y: -0.2834862, z: 0.00025945902}
+  m_LocalRotation: {x: -0, y: 0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.0053216517, y: -0.2834862, z: 0.000259459}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7526339533347897494}
@@ -17203,7 +17203,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7526339533274987317}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0053216517, y: 0.2834862, z: -0.00025945902}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7526339531916020008}
@@ -17221,7 +17221,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.36328602, g: 0.66170835, b: 0.674, a: 1}
-  m_Intensity: 3
+  m_Intensity: 2.5
   m_Range: 4
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -17577,9 +17577,11 @@ GameObject:
   - component: {fileID: 7526339533501193046}
   - component: {fileID: 5781816693911011739}
   - component: {fileID: 4609590157577276029}
-  m_Layer: 0
+  - component: {fileID: 97233255}
+  - component: {fileID: 97233254}
+  m_Layer: 8
   m_Name: robot
-  m_TagString: Untagged
+  m_TagString: UseOn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17618,12 +17620,22 @@ MonoBehaviour:
   moveSpeed: 10
   rotateSpeed: 90
   targetRotation: 0
-  robotFace: {fileID: 0}
-  emoteSprites: []
-  leftArm: {fileID: 0}
+  robotFace: {fileID: 6724054881257244923}
+  emoteSprites:
+  - {fileID: 2800000, guid: 86931bf43f1d8b54590b1ab19a52430f, type: 3}
+  - {fileID: 2800000, guid: 8aee330e7bdf00d43a4dc9e8789317d7, type: 3}
+  - {fileID: 2800000, guid: 6212178d3a53d7145a0d84d2df4003bb, type: 3}
+  - {fileID: 2800000, guid: 514b0797c8cd2174b97299c63f06812f, type: 3}
+  - {fileID: 2800000, guid: 68e7a70411a355449aa25cca7ce27e86, type: 3}
+  - {fileID: 2800000, guid: dcd60e7c519bce047bf601a8d0a92674, type: 3}
+  - {fileID: 2800000, guid: 4dd738feebdc0b34fb1c6ce8cd1cc757, type: 3}
+  leftArm: {fileID: 7526339533692987763}
   babyScript: {fileID: 0}
-  blinkFrequency: {x: 0, y: 0}
-  blinkCloseTime: 0
+  blinkFrequency: {x: 3, y: 10}
+  blinkCloseTime: 0.25
+  armCannon: {fileID: 8753294841859824431}
+  armSparks: {fileID: 5371392605203677061}
+  lastInteract: 
 --- !u!95 &5781816693911011739
 Animator:
   serializedVersion: 3
@@ -17656,6 +17668,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorSequence: {fileID: 0}
+--- !u!65 &97233255
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7526339533501193040}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 0.3, z: 0}
+--- !u!114 &97233254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7526339533501193040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12e6ab5daa3e06847b23c08ae6e39632, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useName: myself
+  useTag: 0
+  behaviour: 
 --- !u!1 &7526339533692987763
 GameObject:
   m_ObjectHideFlags: 0
@@ -17970,7 +18010,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1478750945325785098
 Transform:
   m_ObjectHideFlags: 0
@@ -17997,6 +18037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed74f75a956b5a44480be4bdaed3545c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactName: 
   setMovePos: 1
   movePos: {x: 2, y: 0, z: 7.5}
   item: 1

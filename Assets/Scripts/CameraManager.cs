@@ -10,6 +10,19 @@ public enum CAMERA
     DOOR_CLOSEUP, 
     DOOR_CLOSEUP_2, 
     BLACK_SCREEN,
+    CLOSE_UP,
+    SHOULDER_0,
+    SHOULDER_1,
+    JUNK_FLOOR,
+    DISPOSE_JUNK,
+    LOOK_CAPACITY,
+    BUTTON_SHOT,
+    CLOSE_UP_2,
+    NOTIFY,
+    DOOR_OPEN,
+    BABY_INTRO,
+    TEXT_INTRO,
+    CREDITS,
     NUM
 }
 
@@ -26,20 +39,35 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            ActivateCamera(CAMERA.MAIN);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            ActivateCamera(CAMERA.DOOR);
-        }
     }
 
-    public void ActivateCamera(CAMERA cam)
+    public void FadeIn(CAMERA cam, float fadeTime)
+    {
+        if (cameras[(int)cam].GetComponent<CinemachineStoryboard>())
+        {
+            cameras[(int)cam].GetComponent<CinemachineStoryboard>().m_Alpha = 0.0f;
+            LeanTween.value(0.0f, 1.0f, fadeTime).setOnUpdate((float val)=>{
+                cameras[(int)cam].GetComponent<CinemachineStoryboard>().m_Alpha = val;
+            });
+        } 
+    }
+
+    public void ActivateCamera(CAMERA cam, bool fade = false, float fadeTime = 2.0f)
     {
         SetCamerasActive(false);
         cameras[(int)cam].gameObject.SetActive(true);
+        if (fade && cameras[(int)cam].GetComponent<CinemachineStoryboard>())
+        {
+            cameras[(int)cam].GetComponent<CinemachineStoryboard>().m_Alpha = 1.0f;
+            LeanTween.value(1.0f, 0.0f, fadeTime).setOnUpdate((float val)=>{
+                cameras[(int)cam].GetComponent<CinemachineStoryboard>().m_Alpha = val;
+            });
+        }
+    }
+
+    public bool IsCameraActive(CAMERA cam)
+    {
+        return CinemachineCore.Instance.IsLive(cameras[(int)cam]);
     }
 
     void SetCamerasActive(bool flag)

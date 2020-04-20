@@ -10,11 +10,13 @@ public enum EMOTES
     PANIC,
     SAD,
     BLINK,
+    BULB,
     NUM
 }
 
 public class PlayerController : MonoBehaviour
 {
+    public bool overrideManual;
     public SequenceManager sequenceManager;
     public InventoryManager inventoryManager;
     public CameraManager cameraManager;
@@ -37,6 +39,9 @@ public class PlayerController : MonoBehaviour
     public GameObject armCannon;
     public GameObject armSparks;
 
+    public string lastInteract;
+    public bool putUSB;
+
     private EMOTES currentEmote;
     private bool moveSequence;
     private CAMERA nextCamera;
@@ -49,6 +54,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        putUSB = false;
         movePos = transform.position;
         hasLeftArm = true;
     }
@@ -61,6 +67,14 @@ public class PlayerController : MonoBehaviour
     public bool HasLeftArm()
     {
         return hasLeftArm;
+    }
+
+    private void Update()
+    {
+        if (overrideManual)
+        {
+            ManualUpdate();
+        }
     }
 
     // Update is called once per frame
@@ -96,17 +110,17 @@ public class PlayerController : MonoBehaviour
         UpdateBlink();
 
         // DEBUG KEYS
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            //currentEmote = (EMOTES) (((int) currentEmote + 1) % (int) EMOTES.NUM);
-            //robotFace.material.mainTexture = emoteSprites[(int)currentEmote];
-        }
-
         if (Input.GetKeyDown(KeyCode.P))
         {
-            DeactivateLeftArm();
+            //DeactivateLeftArm();
         }
 
+    }
+
+    private void OnMouseDown()
+    {
+        currentEmote = (EMOTES) (((int) currentEmote + 1) % (int) EMOTES.NUM);
+        robotFace.material.mainTexture = emoteSprites[(int)currentEmote];
     }
 
     void UpdateBlink()
@@ -168,7 +182,8 @@ public class PlayerController : MonoBehaviour
                 movePos = hit.point;
                 movePos.y = 0;
                 Interactable interactScript = hit.transform.GetComponent<Interactable>();
-
+                lastInteract = "";
+                
                 // specific interactable behaviour
                 if (interactScript)
                 {
@@ -182,11 +197,18 @@ public class PlayerController : MonoBehaviour
                     {
                         pickingUpItem = interactScript;
                     }
+
+                    lastInteract = interactScript.interactName;
                 }
                 if (hit.transform.name == "door")
                 {
                     nextCamera = CAMERA.DOOR;
                     nextSeq = SEQUENCE.DOOR;
+                }
+                if (hit.transform.name == "chute_button")
+                {
+                    nextSeq = SEQUENCE.CHUTE;
+                    hit.transform.GetComponent<UseOn>().behaviour = "press";
                 }
 
                 // generic
@@ -206,6 +228,7 @@ public class PlayerController : MonoBehaviour
         targetRotation = transform.eulerAngles.y + Mathf.Sign(rotateDir) * Vector3.Angle(vecToTarget, transform.forward);
         transform.LookAt(movePos);
 
+        putUSB = true;
         moveSequence = true;
         droppingUSB = true;
         pausePicking = true;

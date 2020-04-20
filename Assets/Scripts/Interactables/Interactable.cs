@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
+    public string interactName;
     public bool setMovePos;
     public Vector3 movePos;
     

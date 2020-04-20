@@ -12,6 +12,8 @@ public class Sequencer : MonoBehaviour
         sequenceManager = manager;
     }
 
+    public virtual void ResetState() {}
+
     // Update is called once per frame
     public virtual void ManualUpdate()
     {

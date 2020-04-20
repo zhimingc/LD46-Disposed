@@ -9,7 +9,9 @@ public enum SEQUENCE
     DOOR,
     SHOOT_OVERRIDE,
     CHUTE,
-    SHOOT_CHUTE,
+    PLACE_JUNK,
+    END,
+    INTRO,
     NUM
 }
 
@@ -29,9 +31,15 @@ public class SequenceManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        SetSequence(SEQUENCE.INTRO);
+    }
+
     public void SetSequence(SEQUENCE nextSequence)
     {
         currentSequence = nextSequence;
+        sequencers[(int)currentSequence].ResetState();
     }
 
     // Update is called once per frame
@@ -53,6 +61,15 @@ public class SequenceManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             cameraImpulseSource.GenerateImpulse();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SetSequence(SEQUENCE.SHOOT_OVERRIDE);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SetSequence(SEQUENCE.END);
         }
     }
 

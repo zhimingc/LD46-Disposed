@@ -6,4 +6,5 @@ public class UseOn : MonoBehaviour
 {
     public string useName;
     public USE_ON useTag;
+    public string behaviour;
 }
